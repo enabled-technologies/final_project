@@ -1,0 +1,78 @@
+<!-- Validation failure messages -->
+<% if @list.errors.any? %>
+  <% @list.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Update List: <%= @list.name %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/update_list_from_my_lists/<%= @list.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for name -->
+      <div class="form-group">
+        <label for="name" class="control-label">
+          List Name
+        </label>
+
+        <input type="text" id="name" name="name" placeholder="Name" class="form-control" value="<%= @list.name %>">
+      </div>
+
+      <!-- Label and input for category -->
+      <div class="form-group">
+        <label for="category" class="control-label">
+          Category
+        </label>
+
+        <%= select_tag(:category, options_for_select([['Academic'], ['Professional'], ['Personal']], @list.category), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for prioriti -->
+      <div class="form-group">
+        <label for="prioriti" class="control-label">
+          Prioriti
+        </label>
+   
+        <input type="text" id="prioriti" name="prioriti" placeholder="1, 2, 3..." class="form-control" value="<%= @list.prioriti %>">
+      </div>
+
+      <!-- Label and input for duedate -->
+      <div class="form-group">
+        <label for="duedate" class="control-label">
+          Due
+        </label>
+
+        <input type="datetime" id="duedate" name="duedate" class="form-control" value="<%= @list.duedate %>">
+      </div>
+
+      <!-- Label and input for status -->
+      <div class="form-group">
+        <label for="status" class="control-label">
+          Status
+        </label>
+        <%= select_tag(:status, options_for_select([['Not Started'], ['In Progress'], ['Completed']], @list.status), :class => "form-control") %>
+
+      </div>
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @list.user_id %>">
+      </div>
+
+      <button class="btn btn-warning">
+        Update
+      </button>
+      or
+      <a href="/lists/<%= @list.id %>">Cancel</a>
+    </form>
+  </div>
+</div>
